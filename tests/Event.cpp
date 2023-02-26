@@ -264,3 +264,26 @@ TEST(Event, Parameters)
 
 	EXPECT_EQ(invocationCount, 1);
 }
+
+TEST(Event, MoveIntoEventWithListeners)
+{
+	Event<> myEvent;
+
+	int invocationCount = 0;
+	auto lambda = [&invocationCount]()
+	{
+		invocationCount += 1;
+	};
+
+	Event<> anotherEvent;
+	{
+		auto myListener = anotherEvent.attach(lambda);
+		anotherEvent = std::move(myEvent);
+
+		anotherEvent();
+
+		EXPECT_EQ(invocationCount, 0);
+
+		// myListener is destroyed here, shall see that original anotherEvent is destroyed.
+	}
+}
