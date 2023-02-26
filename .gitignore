@@ -1,0 +1,4 @@
+tests/vs/.vs/
+tests/vs/packages/
+tests/vs/x64/
+tests/vs/vs.vcxproj.user
